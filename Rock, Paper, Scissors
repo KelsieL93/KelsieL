@@ -1,0 +1,78 @@
+from msilib import schema
+import random
+from tkinter import *
+
+#Dictionary and Variables
+schema={
+    "rock": {"rock":1, "paper":0, "scissors":2},
+    "paper": {"rock":2, "paper":1, "scissors":0},
+    "scissors": {"rock":0, "paper":2, "scissors":1},
+}
+computer_score =0
+player_score=0
+
+#Functions
+def outcome_handler(user_choice):
+    global computer_score
+    global player_score
+    outcome = ["rock", "paper", "scissors"]
+    random_number = random.randint(0,2)
+    print (outcome[random_number])
+    computer_choice = outcome[random_number]
+
+    total = schema[user_choice][computer_choice]
+        
+
+    player_choice_label.config(fg= "red", text= "Player choice : "+ str(user_choice))
+    computer_choice_label.config(fg= "green", text= "Computer choice : "+ str(computer_choice))
+
+    if total == 2:
+      player_score = player_score + 2
+      player_scores_label.config (text="Player : " +str (player_score))
+      results_label.config(fg= "blue", text="Results : Player Won!!!")
+
+      computer_score = computer_score + 2
+      comp_scores_label.config (text="Computer : " +str (computer_score))
+      results_label.config(fg= "blue", text="Results : Computer Won!!!")
+
+    if total == 1:
+      player_score = player_score + 1
+      computer_score = computer_score + 1
+      player_scores_label.config (text="Player : " +str (player_score))
+      comp_scores_label.config (text="Computer : " +str (computer_score))
+      results_label.config(fg= "blue", text="Results : Draw")
+
+    if total == 0:
+      computer_score = computer_score + 2
+      comp_scores_label.config (text="Computer : " +str (computer_score))
+      results_label.config (fg= "blue", text="Results : Computer Won")
+
+
+#Main Screen
+master = Tk()
+master.title("RPS")
+
+
+#Label
+Label (master, text="Rock, Paper, Scissors", font=("Calibri", 14)).grid(row=0, sticky=N,pady=10,padx=200)
+Label (master, text="Please select an option", font=("Calibri", 12)).grid(row=5, sticky=N)
+player_scores_label = Label (master, text="Player : 0", font=("Calibri", 12))
+player_scores_label.grid(row=1, sticky=W)
+comp_scores_label = Label (master, text="Computer : 0", font=("Calibri", 12))
+comp_scores_label.grid(row=1, sticky=E)
+player_choice_label = Label (master, font=("Calibri", 12))
+player_choice_label.grid(row=3, sticky=W)
+computer_choice_label = Label (master, font=("Calibri", 12))
+computer_choice_label.grid(row=3, sticky=E)
+results_label = Label (master, font=("Calibri", 12))
+results_label.grid(row=6, sticky=N)
+
+#Buttons
+Button(master, text = "Rock", width=15, command=lambda : outcome_handler("rock")).grid(row=4, sticky=W, padx=5, pady=5)
+Button(master, text = "Paper", width=15, command=lambda : outcome_handler("paper")).grid(row=4, sticky=N, padx=5, pady=5)
+Button(master, text = "Scissors", width=15, command=lambda : outcome_handler("scissors")).grid(row=4, sticky=E, padx=5, pady=5)
+
+#DummyLabel
+Label(master).grid(row=7)
+
+master.mainloop()
